@@ -2,6 +2,8 @@ pub mod challenges;
 pub mod errors;
 #[cfg(test)]
 mod tests;
+pub mod vaults;
+pub mod programs;
 
 use challenges::{Secp256k1SchnorrSign, Secp256k1SchnorrVerify};
 use errors::Secp256k1SchnorrError;
