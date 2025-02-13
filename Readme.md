@@ -39,10 +39,10 @@ Lattice-based cryptography is computationally expensive. Here's an estimate of t
 
 ### Solana Compute Unit Limits
 - **Maximum Compute Units per Transaction**: 1.4 million CUs.
-- The lattice-based Schnorr vault program **fits within Solana's compute unit limits** for single operations (e.g., signature verification). However, for transactions involving multiple lattice-based operations, you may need to optimize or split the transaction.
+- The lattice-based Schnorr vault program **fits within Solana's compute unit limits** for single operations (e.g., signature verification). However, for transactions involving multiple lattice-based operations, it may need to optimize or split the transaction.
 
 ### Optimization Strategies
-To reduce compute costs and ensure the program fits within Solana's limits:
+To reduce compute costs so the program fits within Solana's limits:
 1. **Off-Chain Computation**:
    - Perform expensive operations (e.g., key generation, signing) off-chain and only verify signatures on-chain.
 2. **Batch Processing**:
