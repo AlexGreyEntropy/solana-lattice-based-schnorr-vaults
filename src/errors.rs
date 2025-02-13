@@ -6,4 +6,5 @@ pub enum Secp256k1SchnorrError {
     InvalidSignature = 4,
     InvalidNonce = 5,
     ArithmeticOverflow = 6,
+    LatticeSignatureError = 7,
 }
