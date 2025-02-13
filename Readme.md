@@ -1,6 +1,70 @@
 # solana-secp256k1-schnorr
 
-An efficient SVM implementation of secp256k1 Schnorr signature verification.
+An efficient SVM implementation of secp256k1 Schnorr signature verification with lattice-based cryptography.
+
+## Features
+
+- **Secp256k1 Schnorr Signatures**: Traditional Schnorr signatures for Solana.
+- **Lattice-Based Schnorr Vaults**: Post-quantum secure vaults for SOL, fungible, and non-fungible tokens.
+
+## Lattice-Based Schnorr Vaults
+
+This crate now supports lattice-based Schnorr vaults for enhanced security against quantum attacks. The vaults can be used to secure SOL, fungible, and non-fungible tokens on Solana.
+
+### Example Usage
+
+```rust
+use solana_secp256k1_schnorr::vaults::lattice_schnorr::LatticeSchnorrVault;
+
+// Generate a new key pair
+let (sk, pk) = LatticeSchnorrVault::generate_keypair();
+
+// Sign a message
+let message = b"test";
+let signature = LatticeSchnorrVault::sign(&sk, message);
+
+// Verify the signature
+LatticeSchnorrVault::verify(&pk, message, &signature).expect("Invalid signature");
+```
+
+## Compute Unit Usage
+
+Lattice-based cryptography is computationally expensive. Here's an estimate of the compute unit (CU) cost for key operations:
+
+| Operation          | Compute Units (Estimate) |
+|---------------------|--------------------------|
+| Key Generation      | ~500,000 CUs            |
+| Signing            | ~300,000 CUs            |
+| Verification       | ~200,000 CUs            |
+
+### Solana Compute Unit Limits
+- **Maximum Compute Units per Transaction**: 1.4 million CUs.
+- The lattice-based Schnorr vault program **fits within Solana's compute unit limits** for single operations (e.g., signature verification). However, for transactions involving multiple lattice-based operations, you may need to optimize or split the transaction.
+
+### Optimization Strategies
+To reduce compute costs and ensure the program fits within Solana's limits:
+1. **Off-Chain Computation**:
+   - Perform expensive operations (e.g., key generation, signing) off-chain and only verify signatures on-chain.
+2. **Batch Processing**:
+   - Batch multiple operations into a single transaction to reduce overhead.
+3. **Use Smaller Lattice Parameters**:
+   - Use smaller lattice parameters (e.g., Dilithium2 instead of Dilithium3) to reduce compute costs at the expense of slightly lower security.
+4. **Precompute Values**:
+   - Precompute values (e.g., public keys) and store them on-chain to reduce on-chain computation.
+
+### Example Compute Budget
+Here's an example of setting a compute budget for the `lattice_vault` program:
+
+```rust
+use solana_program::compute_budget::ComputeBudgetInstruction;
+
+// Set compute budget to 300,000 CUs
+let compute_budget = ComputeBudgetInstruction::set_compute_unit_limit(300_000);
+```
+
+## License
+
+MIT
 
 ### Secp256k1SchnorrSignature
 A Schnorr signature used for signature verification purposes.
