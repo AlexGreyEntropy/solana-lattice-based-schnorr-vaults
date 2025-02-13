@@ -30,7 +30,7 @@ pub trait Secp256k1SchnorrVerify: Sized {
 /// - Consider reutilizing the secure randomness of the private key with a pRNG such as a cryptographic hash function
 /// - Include some form of domain separation accross both messages and protocols to avoid nonce reuse attacks
 /// - Are not relationally bound in any predictable way
-/// - Ensure the secure generation of any auxiliary randomness and do not rely solely upon it
+/// - Secure generation of any auxiliary randomness and do not rely solely upon it
 ///
 /// Failure to take these precautions into consideration will likely result in your private key being leaked through a common nonce reuse attack.
 pub trait Secp256k1SchnorrSign: Sized + Secp256k1SchnorrVerify {
@@ -50,3 +50,6 @@ pub mod sha256;
 
 #[cfg(feature = "keccak256")]
 pub mod keccak256;
+
+#[cfg(feature = "lattice")]
+pub mod lattice;
